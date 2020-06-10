@@ -18,7 +18,7 @@ router.post('/add', async(req, res) => {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		const newUser = new User({username: username, password: hashedPassword});
 		await newUser.save();
-		res.json('User added!');
+		res.json(`User:${username} added!`);
 	} catch (e) {
 		res.json(e);
 	}
