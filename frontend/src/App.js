@@ -1,10 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Post from "./components/post.component";
 import { BrowserRouter as Router, Route} from "react-router-dom";
 import ButtonAppBar from "./components/ButtonAppBar.component";
 import PostsList from "./components/posts-list.component";
+import SubredditPostsList from "./components/subreddit-posts-list.component";
+import UserPostsList from "./components/user-posts-list.component";
 
 function App() {
   return (
@@ -13,6 +12,8 @@ function App() {
         <ButtonAppBar />
       <br/>
         <Route path="/" exact component={PostsList} />
+        <Route path="/r/:id" component={SubredditPostsList} />
+        <Route path="/u/:id" component={UserPostsList} />
       </div>
     </Router>
   );
