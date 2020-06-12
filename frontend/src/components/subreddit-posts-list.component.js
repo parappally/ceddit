@@ -18,14 +18,23 @@ function SubredditPostsList(props) {
         fetchData();
     }, [props]);
 
-    return (
-        <div>
-            <Title text={"/r/" + props.match.params.id}/>
-            <Grid container spacing={2}>
-            {posts.map(post => (<Grid item xs={4}><Post key={post.id} subreddit={post.subreddit} title={post.title} text={post.text} username={post.username}/></Grid>))}
-            </Grid>
-        </div>
-    );
+    if (posts.length === 0) {
+        return (
+            <div>
+                <Title text={"/r/" + props.match.params.id}/>
+                <Title text={"No posts on this subreddit"}/>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <Title text={"/r/" + props.match.params.id}/>
+                <Grid container spacing={2}>
+                {posts.map(post => (<Grid item xs={4}><Post key={post.id} subreddit={post.subreddit} title={post.title} text={post.text} username={post.username}/></Grid>))}
+                </Grid>
+            </div>
+        );
+    }
 }
 
 export default SubredditPostsList;
