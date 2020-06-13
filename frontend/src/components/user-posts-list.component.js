@@ -22,7 +22,7 @@ function UserPostsList(props) {
         <div>
             <Title text={"/u/" + props.match.params.id}/>
             <Grid container spacing={2}>
-            {posts.map(post => (<Grid item xs={4}><Post key={post.id} subreddit={post.subreddit} title={post.title} text={post.text} username={post.username}/></Grid>))}
+            {posts.map(post => (<Grid item xs={4}><Post key={post._id} subreddit={post.subreddit} title={post.title} text={post.text} username={post.username}/></Grid>))}
             </Grid>
         </div>
     );
