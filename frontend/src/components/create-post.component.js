@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getJwt } from '../helpers/jwt';
+import  { Redirect } from 'react-router-dom'
 
 function CreatePost() {
 
@@ -10,14 +12,26 @@ function CreatePost() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("username", username);
-        console.log("subreddit", subreddit);
-        console.log("title", title);
-        console.log("text", text);
+        try {
+            const browserJwt = getJwt();
+            // const authOptions = {
+            //     'Authorization': `Bearer ${browserJwt}`
+            // };
+            const options = {
+                headers: {'Authorization': `Bearer ${browserJwt}`}
+            };
+            const response = await axios.post('http://localhost:5000/users/api/posts', { username, subreddit, title, text }, options);
+            console.log(response);
+            const tokenUsername = (response.data.authData.username);
 
-        const newPost = {username, subreddit, title, text};
+            if (username === tokenUsername) {
+                const newPost = {username, subreddit, title, text};
+                await axios.post('http://localhost:5000/posts/add', newPost);
+            }
+        } catch (err) {
+            throw(err);
+        }
 
-        await axios.post('http://localhost:5000/posts/add', newPost);
     }
 
     return (

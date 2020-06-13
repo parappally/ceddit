@@ -19,4 +19,15 @@ exports.authenticate = (username, password) => {
         }
     });
 }
+
+exports.getUser = (username) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await User.findOne({username});
+            resolve(user);
+        } catch (err) {
+            reject('Authentication failed - username not found!');
+        }
+    });
+}
  

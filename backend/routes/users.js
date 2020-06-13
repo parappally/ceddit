@@ -27,19 +27,51 @@ router.post('/add', async(req, res) => {
 	}
 })
 
-router.post('/auth', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 	const username = req.body.username;
 	const password = req.body.password;
-
 	try {
 		const user = await auth.authenticate(username, password);
 		const token = jwt.sign(user.toJSON(), process.env.JWT_SECRET);
-		console.log(user);
 		res.send({ token });
 		next();
 	} catch (err) {
 		res.json(err);
 	}
 });
+
+router.post('/api/posts', verifyToken, (req, res) => {  
+	jwt.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
+	  if(err) {
+		res.sendStatus(403);
+	  } else {
+		res.json({
+		  message: 'Post created...',
+		  authData
+		});
+	  }
+	});
+  });
+  
+
+function verifyToken(req, res, next) {
+	// Get auth header value
+	const bearerHeader = req.headers['authorization'];
+	// Check if bearer is undefined
+	if(typeof bearerHeader !== 'undefined') {
+	  // Split at the space
+	  const bearer = bearerHeader.split(' ');
+	  // Get token from array
+	  const bearerToken = bearer[1];
+	  // Set the token
+	  req.token = bearerToken;
+	  // Next middleware
+	  next();
+	} else {
+	  // Forbidden
+	  res.sendStatus(403);
+	}
+  
+}
 
 module.exports = router;
