@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import  { Redirect } from 'react-router-dom'
 
-function Login(props) {
+function Register (props) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [registered, setRegistered] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,19 +15,15 @@ function Login(props) {
 
         const user = {username, password};
 
-        const response = await axios.post('http://localhost:5000/users/login', user);
-        const token = response.data.token;
-        if (token == null) {
-            console.log('password is incorrect');
-        } else {
-            console.log('password is correct');
-            localStorage.setItem('token', token);
-            setLoggedIn(true);
+        const response = await axios.post('http://localhost:5000/users/add', user);
+
+        if (response.data.name != 'MongoError') {
+            setRegistered(true);
         }
     }
 
-    if (loggedIn) {
-        return <Redirect to="/" />
+    if (registered) {
+        return <Redirect to="/login" />
     } else {
         return (
             <form onSubmit={handleSubmit}>
@@ -41,10 +37,12 @@ function Login(props) {
                 <input type="text" name="password" onChange={(e) => setPassword(e.target.value)}/>
             </label>
             <br></br>
-            <input type="submit" value="Login" />
+            <input type="submit" value="Sign Up" />
             </form>
         );
     }
+
+
 }
 
-export default Login;
+export default Register;
