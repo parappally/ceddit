@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
+import { removeJwt } from '../helpers/jwt';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function handleClick(e) {
+  e.preventDefault();
+  console.log('The logout button was clicked, removing local storage token.');
+  removeJwt();
+}
+
 export default function ButtonAppBar() {
   const classes = useStyles();
 
@@ -27,15 +35,15 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
-          </IconButton> */}
+          </IconButton>
           <Link to={"/"}>
             <Typography variant="h6" className={classes.title}>
               Ceddit
             </Typography>
           </Link>
-          {/* <Button color="inherit">Login</Button> */}
+          <Button color="inherit" onClick={handleClick}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>

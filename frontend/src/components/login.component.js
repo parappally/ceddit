@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import  { Redirect } from 'react-router-dom'
+import { getJwt } from '../helpers/jwt';
 
 function Login(props) {
 
@@ -26,7 +27,7 @@ function Login(props) {
         }
     }
 
-    if (loggedIn) {
+    if (getJwt() !== null || loggedIn) {
         return <Redirect to="/" />
     } else {
         return (

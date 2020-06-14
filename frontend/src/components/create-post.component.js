@@ -20,14 +20,14 @@ function CreatePost() {
             const options = {
                 headers: {'Authorization': `Bearer ${browserJwt}`}
             };
-            const response = await axios.post('http://localhost:5000/users/api/posts', { username, subreddit, title, text }, options);
+            const response = await axios.post('http://localhost:5000/users/api/posts', { subreddit, title, text }, options);
             console.log(response);
             const tokenUsername = (response.data.authData.username);
-
-            if (username === tokenUsername) {
-                const newPost = {username, subreddit, title, text};
-                await axios.post('http://localhost:5000/posts/add', newPost);
-            }
+            // fix replace username with tokenUsernaem
+            // if (username === tokenUsername) {
+            const newPost = {username: tokenUsername, subreddit: subreddit, title: title, text: text};
+            await axios.post('http://localhost:5000/posts/add', newPost);
+            // }
         } catch (err) {
             throw(err);
         }
@@ -36,11 +36,11 @@ function CreatePost() {
 
     return (
         <form onSubmit={handleSubmit}>
-        <label>
+        {/* <label>
             Username:
             <input type="text" name="username" onChange={(e) => setUsername(e.target.value)}/>
         </label>
-        <br></br>
+        <br></br> */}
         <label>
             Subreddit:
             <input type="text" name="subreddit" onChange={(e) => setSubreddit(e.target.value)}/>
