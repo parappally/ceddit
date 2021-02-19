@@ -15,4 +15,4 @@ Uses React on the front end, and Node, MongoDB on the backend <br>
 
 User accounts <br>
 User authentication using bcrypt, and jsonwebtoken <br>
-Users can add/edit/delete posts, browse the frontpage, look at a user's post history, and browse posts on specific subreddits 
+Users can add posts, browse the frontpage, look at a user's post history, and browse posts on specific subreddits 
